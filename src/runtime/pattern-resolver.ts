@@ -34,36 +34,41 @@ export interface PatternConfig {
   [key: string]: unknown;
 }
 
-// Props come from schema JSON — any is intentional, components validate their own props
-// eslint-disable-next-line
-type ComponentFactory = (props: Record<string, any>, children?: React.ReactNode) => React.ReactElement;
+// Props come from schema JSON — dynamic resolution, components validate their own props
+type ComponentFactory = (props: Record<string, unknown>, children?: React.ReactNode) => React.ReactElement;
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * Create element with dynamic props. This is a pattern resolver that maps
+ * schema JSON to components at runtime — props are inherently untyped.
+ */
+function el(component: React.ElementType, props: Record<string, unknown>, children?: React.ReactNode): React.ReactElement {
+  return React.createElement(component, props, children);
+}
 const COMPONENT_MAP: Record<string, ComponentFactory> = {
-  'stack': (p, c) => React.createElement(Stack as any, { direction: p.direction, gap: p.gap }, c),
-  'box': (p, c) => React.createElement(Box as any, { border: !!p.border, padding: p.padding as number }, c),
-  'typography': (p) => React.createElement(Typography as any, { variant: p.variant as string, content: String(p.content ?? p.children ?? '') }),
-  'heading': (p) => React.createElement(Typography as any, { variant: 'h2', content: String(p.content ?? p.children ?? '') }),
-  'text': (p) => React.createElement(Typography as any, { variant: 'body', content: String(p.content ?? p.children ?? '') }),
-  'button': (p) => React.createElement(Button as any, { variant: p.variant as string, label: String(p.label ?? p.children ?? p.event ?? 'Button') }),
-  'badge': (p) => React.createElement(Badge as any, { variant: p.variant as string }, String(p.content ?? p.children ?? '')),
-  'icon': (p) => React.createElement(Icon as any, { name: p.name as string ?? p.icon as string, color: p.color as string }),
-  'input': (p) => React.createElement(Input as any, { placeholder: String(p.placeholder ?? p.name ?? 'input') }),
-  'textarea': (p) => React.createElement(Input as any, { placeholder: String(p.placeholder ?? 'text area') }),
-  'select': (p) => React.createElement(Typography as any, { variant: 'body', content: `[Select: ${p.placeholder ?? 'choose'}]` }),
-  'checkbox': (p) => React.createElement(Checkbox as any, { label: String(p.label ?? ''), checked: !!p.checked }),
-  'divider': () => React.createElement(Divider as any, {}),
-  'spacer': () => React.createElement(Box as any, { padding: 1 }),
-  'progress-bar': (p) => React.createElement(ProgressBar as any, { value: Number(p.value ?? 50), max: Number(p.max ?? 100), showPercentage: true }),
-  'card': (p, c) => React.createElement(Card as any, { title: String(p.title ?? '') }, c),
+  'stack': (p, c) => el(Stack, { direction: p.direction, gap: p.gap }, c),
+  'box': (p, c) => el(Box, { border: !!p.border, padding: p.padding as number }, c),
+  'typography': (p) => el(Typography, { variant: p.variant as string, content: String(p.content ?? p.children ?? '') }),
+  'heading': (p) => el(Typography, { variant: 'h2', content: String(p.content ?? p.children ?? '') }),
+  'text': (p) => el(Typography, { variant: 'body', content: String(p.content ?? p.children ?? '') }),
+  'button': (p) => el(Button, { variant: p.variant as string, label: String(p.label ?? p.children ?? p.event ?? 'Button') }),
+  'badge': (p) => el(Badge, { variant: p.variant as string }, String(p.content ?? p.children ?? '')),
+  'icon': (p) => el(Icon, { name: p.name as string ?? p.icon as string, color: p.color as string }),
+  'input': (p) => el(Input, { placeholder: String(p.placeholder ?? p.name ?? 'input') }),
+  'textarea': (p) => el(Input, { placeholder: String(p.placeholder ?? 'text area') }),
+  'select': (p) => el(Typography, { variant: 'body', content: `[Select: ${p.placeholder ?? 'choose'}]` }),
+  'checkbox': (p) => el(Checkbox, { label: String(p.label ?? ''), checked: !!p.checked }),
+  'divider': () => el(Divider, {}),
+  'spacer': () => el(Box, { padding: 1 }),
+  'progress-bar': (p) => el(ProgressBar, { value: Number(p.value ?? 50), max: Number(p.max ?? 100), showPercentage: true }),
+  'card': (p, c) => el(Card, { title: String(p.title ?? '') }, c),
   'data-grid': (p) => {
     const fields = (p.fields ?? p.columns ?? []) as Array<{ name: string; label?: string }>;
     const columns = fields.map(f => ({ name: f.name, label: f.label ?? f.name }));
-    return React.createElement(DataGrid as any, { columns, rows: [{ ...Object.fromEntries(columns.map(c => [c.name, '...'])) }] });
+    return el(DataGrid, { columns, rows: [{ ...Object.fromEntries(columns.map(c => [c.name, '...'])) }] });
   },
   'data-list': (p) => {
     const fields = (p.fields ?? []) as Array<{ name: string; label?: string }>;
-    return React.createElement(DataList as any, { entity: [{}], fields: fields.length > 0 ? fields : [{ name: 'item' }] });
+    return el(DataList, { entity: [{}], fields: fields.length > 0 ? fields : [{ name: 'item' }] });
   },
   'tabs': (p) => {
     const items = ((p.items ?? p.tabs ?? []) as Array<{ id?: string; label?: string }>).map((t, i) => ({
@@ -71,29 +76,29 @@ const COMPONENT_MAP: Record<string, ComponentFactory> = {
       label: t.label ?? `Tab ${i + 1}`,
       active: i === 0,
     }));
-    return React.createElement(Tabs as any, { items });
+    return el(Tabs, { items });
   },
   'breadcrumb': (p) => {
     const items = ((p.items ?? []) as Array<{ label: string }>);
-    return React.createElement(Breadcrumb as any, { items });
+    return el(Breadcrumb, { items });
   },
   'wizard-progress': (p) => {
     const steps = (p.steps ?? []) as string[];
-    return React.createElement(WizardProgress as any, { steps, activeStep: Number(p.activeStep ?? 0) });
+    return el(WizardProgress, { steps, activeStep: Number(p.activeStep ?? 0) });
   },
-  'alert': (p) => React.createElement(Alert as any, { variant: p.variant as string ?? 'info', title: String(p.title ?? ''), message: String(p.message ?? p.content ?? '') }),
-  'empty-state': (p) => React.createElement(EmptyState as any, { title: String(p.title ?? 'Empty'), description: String(p.description ?? '') }),
-  'error-state': (p) => React.createElement(ErrorState as any, { title: String(p.title ?? 'Error'), message: String(p.message ?? '') }),
-  'loading-state': (p) => React.createElement(LoadingState as any, { message: String(p.message ?? 'Loading...') }),
-  'form': (p, c) => React.createElement(Box as any, { border: true }, c),
-  'form-section': (p, c) => React.createElement(FormField as any, { label: String(p.label ?? p.title ?? 'Section'), children: c ?? React.createElement(Typography as any, { content: '...' }) }),
-  'form-field': (p, c) => React.createElement(FormField as any, { label: String(p.label ?? p.name ?? 'Field'), required: !!p.required, children: c ?? React.createElement(Input as any, { placeholder: String(p.placeholder ?? '') }) }),
-  'modal': (p, c) => React.createElement(Box as any, { border: true, padding: 1 }, c),
-  'drawer': (p, c) => React.createElement(Box as any, { border: true, padding: 1 }, c),
-  'search-input': (p) => React.createElement(Input as any, { placeholder: String(p.placeholder ?? 'Search...') }),
-  'simple-grid': (p, c) => React.createElement(Stack as any, { direction: 'horizontal', gap: 'md' }, c),
-  'center': (p, c) => React.createElement(Box as any, {}, c),
-  'dashboard-layout': (p, c) => React.createElement(Box as any, { border: true, padding: 1 }, c),
+  'alert': (p) => el(Alert, { variant: p.variant as string ?? 'info', title: String(p.title ?? ''), message: String(p.message ?? p.content ?? '') }),
+  'empty-state': (p) => el(EmptyState, { title: String(p.title ?? 'Empty'), description: String(p.description ?? '') }),
+  'error-state': (p) => el(ErrorState, { title: String(p.title ?? 'Error'), message: String(p.message ?? '') }),
+  'loading-state': (p) => el(LoadingState, { message: String(p.message ?? 'Loading...') }),
+  'form': (p, c) => el(Box, { border: true }, c),
+  'form-section': (p, c) => el(FormField, { label: String(p.label ?? p.title ?? 'Section'), children: c ?? el(Typography, { content: '...' }) }),
+  'form-field': (p, c) => el(FormField, { label: String(p.label ?? p.name ?? 'Field'), required: !!p.required, children: c ?? el(Input, { placeholder: String(p.placeholder ?? '') }) }),
+  'modal': (p, c) => el(Box, { border: true, padding: 1 }, c),
+  'drawer': (p, c) => el(Box, { border: true, padding: 1 }, c),
+  'search-input': (p) => el(Input, { placeholder: String(p.placeholder ?? 'Search...') }),
+  'simple-grid': (p, c) => el(Stack, { direction: 'horizontal', gap: 'md' }, c),
+  'center': (p, c) => el(Box, {}, c),
+  'dashboard-layout': (p, c) => el(Box, { border: true, padding: 1 }, c),
 };
 
 /**
@@ -114,7 +119,7 @@ export function resolvePattern(config: PatternConfig): React.ReactElement {
 
   if (!factory) {
     // Unknown pattern: render as labeled box
-    return React.createElement(Typography as any, { variant: 'caption', content: `[${type}]` });
+    return el(Typography, { variant: 'caption', content: `[${type}]` });
   }
 
   return factory(props as Record<string, unknown>, childElements);

@@ -6,7 +6,7 @@ export interface FormFieldProps {
   required?: boolean;
   error?: string;
   hint?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function FormField({ label, required, error, hint, children }: FormFieldProps): React.ReactElement {
