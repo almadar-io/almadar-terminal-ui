@@ -36,6 +36,10 @@ export { Accordion, type AccordionProps, type AccordionItem } from './molecules/
 export { useTerminalWidth } from './hooks/useTerminalWidth.js';
 export { useTheme } from './hooks/useTheme.js';
 
+// Runtime
+export { OrbPreview, type OrbPreviewProps } from './runtime/OrbPreview.js';
+export { resolvePattern, type PatternConfig } from './runtime/pattern-resolver.js';
+
 // Theme
 export { theme, resolveColor, resolveGap } from './theme.js';
 export type { ThemeColor } from './theme.js';
