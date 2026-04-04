@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { render, Static, Box, Text } from 'ink';
 import { Typography } from './atoms/Typography.js';
 import { Badge } from './atoms/Badge.js';
@@ -19,6 +19,7 @@ import { EmptyState } from './molecules/EmptyState.js';
 import { Tabs } from './molecules/Tabs.js';
 import { Toast } from './molecules/Toast.js';
 import { ErrorState } from './molecules/ErrorState.js';
+import { LoadingState } from './molecules/LoadingState.js';
 
 // Each section is a static item that prints once and never re-renders
 const sections = [
@@ -240,22 +241,113 @@ const sections = [
   )},
 ];
 
-function Demo(): React.ReactElement {
+// Simulates a live agent session: gates progress, tools run, JEPA updates
+function LiveTraceDemo(): React.ReactElement {
+  const [gateIndex, setGateIndex] = useState(0);
+  const [tools, setTools] = useState<{ name: string; status: string; duration: string }[]>([]);
+  const [jepa, setJepa] = useState(0);
+  const [done, setDone] = useState(false);
+
+  const gates = [
+    'Decompose', 'Behaviors', 'Entities', 'State Machines', 'Effects', 'Render-UI', 'Validate',
+  ];
+
+  const toolSequence = [
+    { name: 'select_behaviors', delay: 800 },
+    { name: 'call_behavior', delay: 600 },
+    { name: 'call_behavior', delay: 400 },
+    { name: 'compose_orbitals', delay: 300 },
+    { name: 'update_render_ui', delay: 1200 },
+    { name: 'validate', delay: 500 },
+    { name: 'compile', delay: 700 },
+  ];
+
   useEffect(() => {
-    const timer = setTimeout(() => process.exit(0), 500);
-    return () => clearTimeout(timer);
+    let step = 0;
+    const interval = setInterval(() => {
+      if (step < toolSequence.length) {
+        const tool = toolSequence[step];
+        // Add tool as running
+        setTools(prev => [...prev, { name: tool.name, status: '⧗', duration: '...' }]);
+        setJepa(prev => Math.min(98, prev + Math.round(Math.random() * 15 + 5)));
+
+        // Mark done after delay
+        setTimeout(() => {
+          setTools(prev => prev.map((t, i) =>
+            i === step ? { ...t, status: '✓', duration: `${tool.delay}ms` } : t
+          ));
+        }, tool.delay);
+
+        // Advance gate every 2 tools
+        if (step % 2 === 1) {
+          setGateIndex(prev => Math.min(gates.length - 1, prev + 1));
+        }
+
+        step++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => setDone(true), 1000);
+      }
+    }, 900);
+
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (done) {
+      setTimeout(() => process.exit(0), 500);
+    }
+  }, [done]);
 
   return (
     <Box flexDirection="column">
+      {/* Static: all the component demos printed once */}
       <Static items={sections}>
         {(section) => (
           <Box key={section.id}>{section.node}</Box>
         )}
       </Static>
-      <Text dimColor>Demo complete.</Text>
+
+      <Divider label="Live Trace Demo" />
+
+      {/* Dynamic: this section re-renders without flickering the static content above */}
+      <Box flexDirection="column" paddingTop={1}>
+        <Typography variant="h3">Gate Pipeline</Typography>
+        <WizardProgress steps={gates} activeStep={gateIndex} />
+
+        <Box height={1} />
+
+        <Typography variant="h3">Tool Timeline</Typography>
+        {tools.length === 0 ? (
+          <LoadingState message="Starting agent..." />
+        ) : (
+          <DataGrid
+            columns={[
+              { name: 'name', label: 'Tool' },
+              { name: 'status', label: 'Status' },
+              { name: 'duration', label: 'Duration' },
+            ]}
+            rows={tools}
+          />
+        )}
+
+        <Box height={1} />
+
+        <Stack direction="horizontal" gap="md">
+          <Typography variant="body">JEPA:</Typography>
+          <ProgressBar value={jepa} max={100} variant={jepa > 80 ? 'success' : jepa > 50 ? 'warning' : 'danger'} showPercentage width={25} />
+        </Stack>
+
+        <Box height={1} />
+
+        {done ? (
+          <Alert variant="success" title="Done" message={`${tools.length} tools executed. JEPA: ${jepa}%`} />
+        ) : (
+          <LoadingState message="Agent is working..." />
+        )}
+      </Box>
     </Box>
   );
 }
 
-render(<Demo />);
+render(<LiveTraceDemo />);
