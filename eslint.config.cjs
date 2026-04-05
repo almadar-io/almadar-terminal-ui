@@ -14,6 +14,7 @@ module.exports = [
     rules: {
       "almadar/no-as-any": "error",
       "almadar/no-import-generated": "error",
+      "almadar/no-record-string-unknown": "error",
     },
   },
 ];

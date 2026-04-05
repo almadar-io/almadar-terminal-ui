@@ -34,14 +34,19 @@ export interface PatternConfig {
   [key: string]: unknown;
 }
 
+/** Props resolved from pattern JSON. Values are primitive schema types. */
+interface PatternProps {
+  [key: string]: string | number | boolean | null | undefined | PatternProps | PatternProps[];
+}
+
 // Props come from schema JSON — dynamic resolution, components validate their own props
-type ComponentFactory = (props: Record<string, unknown>, children?: React.ReactNode) => React.ReactElement;
+type ComponentFactory = (props: PatternProps, children?: React.ReactNode) => React.ReactElement;
 
 /**
  * Create element with dynamic props. This is a pattern resolver that maps
  * schema JSON to components at runtime — props are inherently untyped.
  */
-function el(component: React.ElementType, props: Record<string, unknown>, children?: React.ReactNode): React.ReactElement {
+function el(component: React.ElementType, props: PatternProps, children?: React.ReactNode): React.ReactElement {
   return React.createElement(component, props, children);
 }
 const COMPONENT_MAP: Record<string, ComponentFactory> = {
@@ -122,5 +127,5 @@ export function resolvePattern(config: PatternConfig): React.ReactElement {
     return el(Typography, { variant: 'caption', content: `[${type}]` });
   }
 
-  return factory(props as Record<string, unknown>, childElements);
+  return factory(props as PatternProps, childElements);
 }

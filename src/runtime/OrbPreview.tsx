@@ -14,11 +14,23 @@ import { Card } from '../atoms/Card.js';
 import { Badge } from '../atoms/Badge.js';
 import { resolvePattern, type PatternConfig } from './pattern-resolver.js';
 
+/** Minimal orbital schema shape accepted by OrbPreview. */
+interface OrbPreviewSchema {
+  name?: string;
+  orbitals?: OrbitalDef[];
+}
+
+/** Entity row: a record with string keys and display-safe values. */
+interface EntityRowData {
+  id?: string;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
 export interface OrbPreviewProps {
   /** The orbital schema. Accepts a JSON string or a parsed object. */
-  schema: string | Record<string, unknown>;
+  schema: string | OrbPreviewSchema;
   /** Mock entity data keyed by entity name. */
-  mockData?: Record<string, unknown[]>;
+  mockData?: Record<string, EntityRowData[]>;
 }
 
 interface OrbitalDef {
@@ -37,7 +49,7 @@ interface OrbitalDef {
   pages?: Array<{ name?: string; route?: string }>;
 }
 
-function parseSchema(schema: string | Record<string, unknown>): { name: string; orbitals: OrbitalDef[] } {
+function parseSchema(schema: string | OrbPreviewSchema): { name: string; orbitals: OrbitalDef[] } {
   const parsed = typeof schema === 'string' ? JSON.parse(schema) : schema;
   return {
     name: parsed.name ?? 'Unknown',
