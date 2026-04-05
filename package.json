@@ -34,6 +34,7 @@
     "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
+    "@almadar/core": ">=2.6.3",
     "ink": "^6.0.0",
     "ink-spinner": "^5.0.0",
     "ink-text-input": "^6.0.0",

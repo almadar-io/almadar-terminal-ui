@@ -1,19 +1,14 @@
 import React from 'react';
 import { Box, Text } from 'ink';
+import type { EntityRow } from '@almadar/core';
 
 export interface DataListField {
   name: string;
   label?: string;
 }
 
-/** Entity row: a record with string keys and display-safe values. */
-interface EntityRowData {
-  id?: string;
-  [key: string]: string | number | boolean | null | undefined;
-}
-
 export interface DataListProps {
-  entity: EntityRowData[];
+  entity: EntityRow[];
   fields: DataListField[];
   gap?: 'none' | 'sm' | 'md' | 'lg';
   variant?: 'default' | 'compact';

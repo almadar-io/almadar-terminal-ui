@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { Box, Text } from 'ink';
+import type { OrbitalSchema, EntityRow } from '@almadar/core';
 import { Typography } from '../atoms/Typography.js';
 import { Divider } from '../atoms/Divider.js';
 import { Stack } from '../atoms/Stack.js';
@@ -14,23 +15,11 @@ import { Card } from '../atoms/Card.js';
 import { Badge } from '../atoms/Badge.js';
 import { resolvePattern, type PatternConfig } from './pattern-resolver.js';
 
-/** Minimal orbital schema shape accepted by OrbPreview. */
-interface OrbPreviewSchema {
-  name?: string;
-  orbitals?: OrbitalDef[];
-}
-
-/** Entity row: a record with string keys and display-safe values. */
-interface EntityRowData {
-  id?: string;
-  [key: string]: string | number | boolean | null | undefined;
-}
-
 export interface OrbPreviewProps {
   /** The orbital schema. Accepts a JSON string or a parsed object. */
-  schema: string | OrbPreviewSchema;
+  schema: string | OrbitalSchema;
   /** Mock entity data keyed by entity name. */
-  mockData?: Record<string, EntityRowData[]>;
+  mockData?: Record<string, EntityRow[]>;
 }
 
 interface OrbitalDef {
@@ -49,8 +38,8 @@ interface OrbitalDef {
   pages?: Array<{ name?: string; route?: string }>;
 }
 
-function parseSchema(schema: string | OrbPreviewSchema): { name: string; orbitals: OrbitalDef[] } {
-  const parsed = typeof schema === 'string' ? JSON.parse(schema) : schema;
+function parseSchema(schema: string | OrbitalSchema): { name: string; orbitals: OrbitalDef[] } {
+  const parsed = typeof schema === 'string' ? JSON.parse(schema) as OrbitalSchema : schema;
   return {
     name: parsed.name ?? 'Unknown',
     orbitals: (parsed.orbitals ?? []) as OrbitalDef[],
