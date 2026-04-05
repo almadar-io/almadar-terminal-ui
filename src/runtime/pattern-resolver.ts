@@ -48,6 +48,7 @@ type ComponentFactory = (props: PatternProps, children?: React.ReactNode) => Rea
  * Accept Record<string, unknown> since resolved props may include arrays,
  * ReactNode children, and other types beyond strict PatternProps.
  */
+// eslint-disable-next-line almadar/no-record-string-unknown -- React.createElement accepts generic props including ReactNode, arrays, and other non-FieldValue types
 function el(component: React.ElementType, props: Record<string, unknown>, children?: React.ReactNode): React.ReactElement {
   return React.createElement(component, props, children);
 }
@@ -90,6 +91,7 @@ const COMPONENT_MAP: Record<string, ComponentFactory> = {
     return el(Breadcrumb, { items });
   },
   'wizard-progress': (p) => {
+    // eslint-disable-next-line almadar/no-record-string-unknown -- WizardProgress steps come from dynamic pattern props
     const steps = (p.steps ?? []) as unknown as string[];
     return el(WizardProgress, { steps, activeStep: Number(p.activeStep ?? 0) });
   },
