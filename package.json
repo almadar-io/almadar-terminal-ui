@@ -42,7 +42,7 @@
     "react": "^19.0.0"
   },
   "devDependencies": {
-    "@almadar/eslint-plugin": ">=2.3.0",
+    "@almadar/eslint-plugin": ">=2.7.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@typescript-eslint/parser": "^8.0.0",
