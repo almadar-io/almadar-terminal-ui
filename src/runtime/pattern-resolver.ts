@@ -45,8 +45,10 @@ type ComponentFactory = (props: PatternProps, children?: React.ReactNode) => Rea
 /**
  * Create element with dynamic props. This is a pattern resolver that maps
  * schema JSON to components at runtime — props are inherently untyped.
+ * Accept Record<string, unknown> since resolved props may include arrays,
+ * ReactNode children, and other types beyond strict PatternProps.
  */
-function el(component: React.ElementType, props: PatternProps, children?: React.ReactNode): React.ReactElement {
+function el(component: React.ElementType, props: Record<string, unknown>, children?: React.ReactNode): React.ReactElement {
   return React.createElement(component, props, children);
 }
 const COMPONENT_MAP: Record<string, ComponentFactory> = {
@@ -88,7 +90,7 @@ const COMPONENT_MAP: Record<string, ComponentFactory> = {
     return el(Breadcrumb, { items });
   },
   'wizard-progress': (p) => {
-    const steps = (p.steps ?? []) as string[];
+    const steps = (p.steps ?? []) as unknown as string[];
     return el(WizardProgress, { steps, activeStep: Number(p.activeStep ?? 0) });
   },
   'alert': (p) => el(Alert, { variant: p.variant as string ?? 'info', title: String(p.title ?? ''), message: String(p.message ?? p.content ?? '') }),
