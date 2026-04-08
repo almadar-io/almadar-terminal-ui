@@ -1,6 +1,6 @@
 {
   "name": "@almadar/terminal-ui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Terminal variant of @almadar/ui built on Ink. Same component names, same props, terminal rendering.",
   "type": "module",
   "main": "./dist/index.js",
@@ -34,7 +34,7 @@
     "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
-    "@almadar/core": ">=2.13.0",
+    "@almadar/core": ">=4.2.0",
     "ink": "^6.0.0",
     "ink-spinner": "^5.0.0",
     "ink-text-input": "^6.0.0",
