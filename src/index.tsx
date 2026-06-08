@@ -31,7 +31,8 @@ export { FormField, type FormFieldProps } from './molecules/FormField.js';
 export { SimpleGrid, type SimpleGridProps } from './molecules/SimpleGrid.js';
 export { Tree, type TreeProps, type TreeNode } from './molecules/Tree.js';
 export { Accordion, type AccordionProps, type AccordionItem } from './molecules/Accordion.js';
-export { LogView, type LogViewProps, type LogEntry, type LogLevel } from './molecules/LogView.js';
+export { LogLine, type LogLineProps, type LogEntry, type LogLevel, LEVEL_COLOR, LEVEL_MARK } from './molecules/LogLine.js';
+export { LogView, type LogViewProps } from './molecules/LogView.js';
 
 // Hooks
 export { useTerminalWidth } from './hooks/useTerminalWidth.js';

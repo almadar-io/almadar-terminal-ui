@@ -1,15 +1,9 @@
 import React from 'react';
 import { Box as InkBox, Text } from 'ink';
 import { useTerminalWidth } from '../hooks/useTerminalWidth.js';
+import { type LogEntry, type LogLevel, LEVEL_COLOR, LEVEL_MARK } from './LogLine.js';
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
-
-export interface LogEntry {
-  level: LogLevel;
-  /** Source namespace, e.g. `almadar:rabit:runtime`. */
-  namespace?: string;
-  message: string;
-}
+export type { LogEntry, LogLevel };
 
 export interface LogViewProps {
   /** Captured log lines, most-recent last. Only the last `rows` are shown. */
@@ -20,20 +14,6 @@ export interface LogViewProps {
   /** Panel title. Default `logs`. */
   title?: string;
 }
-
-const LEVEL_COLOR: Record<LogLevel, string> = {
-  debug: 'gray',
-  info: 'cyan',
-  warn: 'yellow',
-  error: 'red',
-};
-
-const LEVEL_MARK: Record<LogLevel, string> = {
-  debug: '·',
-  info: 'ℹ',
-  warn: '⚠',
-  error: '✗',
-};
 
 /**
  * A bordered, fixed-height log panel. Renders the last `rows` entries (padded
