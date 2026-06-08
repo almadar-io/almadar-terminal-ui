@@ -12,3 +12,4 @@ export { FormField, type FormFieldProps } from './FormField.js';
 export { SimpleGrid, type SimpleGridProps } from './SimpleGrid.js';
 export { Tree, type TreeProps, type TreeNode } from './Tree.js';
 export { Accordion, type AccordionProps, type AccordionItem } from './Accordion.js';
+export { LogView, type LogViewProps, type LogEntry, type LogLevel } from './LogView.js';
