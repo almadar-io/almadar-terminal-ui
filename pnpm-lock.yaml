@@ -4,28 +4,43 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  react: 19.2.3
+  react-dom: 19.2.3
+  '@types/react': '>=19.0.0'
+  '@types/react-dom': '>=19.0.0'
+  zustand: 4.5.7
+  react-native-reanimated: 4.1.1
+  react-native-worklets: 0.5.1
+  react-syntax-highlighter: ^16.1.0
+  '@react-three/fiber': 9.5.0
+  '@types/three': 0.160.0
+  '@almadar/std': ^16.103.2
+  '@almadar/ui': ^5.93.0
+  '@almadar/core': ^10.24.0
+
 importers:
 
   .:
     dependencies:
       '@almadar/core':
-        specifier: '>=4.8.2'
-        version: 10.16.0
+        specifier: ^10.24.0
+        version: link:../almadar-core
       ink:
         specifier: ^6.0.0
-        version: 6.8.0(@types/react@19.2.17)(react@19.2.7)
+        version: 6.8.0(@types/react@19.2.17)(react@19.2.3)
       ink-select-input:
         specifier: ^6.0.0
-        version: 6.2.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)
+        version: 6.2.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.3))(react@19.2.3)
       ink-spinner:
         specifier: ^5.0.0
-        version: 5.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)
+        version: 5.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.3))(react@19.2.3)
       ink-text-input:
         specifier: ^6.0.0
-        version: 6.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)
+        version: 6.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.3))(react@19.2.3)
       react:
-        specifier: ^19.0.0
-        version: 19.2.7
+        specifier: 19.2.3
+        version: 19.2.3
     devDependencies:
       '@almadar/eslint-plugin':
         specifier: '>=2.7.0'
@@ -34,7 +49,7 @@ importers:
         specifier: ^22.0.0
         version: 22.20.0
       '@types/react':
-        specifier: ^19.0.0
+        specifier: '>=19.0.0'
         version: 19.2.17
       '@typescript-eslint/parser':
         specifier: ^8.0.0
@@ -61,16 +76,10 @@ packages:
     resolution: {integrity: sha512-3NX/MpTdroi0aKz134A6RC2Gb2iXVECN4QaAXnvCIxxIm3C3AVB1mkUe8NaaiyvOpDfsrqWhYtj+Q6a62RrTsw==}
     engines: {node: '>=18'}
 
-  '@almadar/core@10.16.0':
-    resolution: {integrity: sha512-w2CNpeHhxYMts/mT1SNXP0xHkSU3b6yNKxNaDle0YeMnF2gIwiNdKAAxjqtZGODg554VPQK1iYLl/lQxo1X68Q==}
-
   '@almadar/eslint-plugin@2.8.2':
     resolution: {integrity: sha512-iQGH5MdsfcEPGUeImgS3XBWLfBRc0uO9+0Kyy87WQf/nc4hUoAEPxov5C/JAYe1tLoL34dLBIyKDm/SFeYPBsA==}
     peerDependencies:
       eslint: '>=8.0.0'
-
-  '@almadar/patterns@2.93.0':
-    resolution: {integrity: sha512-PY82ZxBhZsEd4RDBok/JwNFjLf4lvwMqiVAm+/V+4b+trVkZl4gC0HwQBT7PHLBy3MtcW04csIrK3lJjt1oB7g==}
 
   '@esbuild/aix-ppc64@0.27.7':
     resolution: {integrity: sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg==}
@@ -971,28 +980,28 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       ink: '>=5.0.0'
-      react: '>=18.0.0'
+      react: 19.2.3
 
   ink-spinner@5.0.0:
     resolution: {integrity: sha512-EYEasbEjkqLGyPOUc8hBJZNuC5GvXGMLu0w5gdTNskPc7Izc5vO3tdQEYnzvshucyGCBXc86ig0ujXPMWaQCdA==}
     engines: {node: '>=14.16'}
     peerDependencies:
       ink: '>=4.0.0'
-      react: '>=18.0.0'
+      react: 19.2.3
 
   ink-text-input@6.0.0:
     resolution: {integrity: sha512-Fw64n7Yha5deb1rHY137zHTAbSTNelUKuB5Kkk2HACXEtwIHBCf9OH2tP/LQ9fRYTl1F0dZgbW0zPnZk6FA9Lw==}
     engines: {node: '>=18'}
     peerDependencies:
       ink: '>=5'
-      react: '>=18'
+      react: 19.2.3
 
   ink@6.8.0:
     resolution: {integrity: sha512-sbl1RdLOgkO9isK42WCZlJCFN9hb++sX9dsklOvfd1YQ3bQ2AiFu12Q6tFlr0HvEUvzraJntQCCpfEoUe9DSzA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@types/react': '>=19.0.0'
-      react: '>=19.0.0'
+      react: 19.2.3
       react-devtools-core: '>=6.1.2'
     peerDependenciesMeta:
       '@types/react':
@@ -1179,10 +1188,10 @@ packages:
     resolution: {integrity: sha512-KetWRytFv1epdpJc3J4G75I4WrplZE5jOL7Yq0p34+OVOKF4Se7WrdIdVC45XsSSmUTlht2FM/fM1FZb1mfQeA==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
-      react: ^19.2.0
+      react: 19.2.3
 
-  react@19.2.7:
-    resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
+  react@19.2.3:
+    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
     engines: {node: '>=0.10.0'}
 
   readdirp@4.1.2:
@@ -1391,9 +1400,6 @@ packages:
   yoga-layout@3.2.1:
     resolution: {integrity: sha512-0LPOt3AxKqMdFBZA3HBAt/t/8vIKq7VaQYbuA8WxCgung+p9TVyKRYdpvCb80HcdTN2NkbIKbhNwKUfm3tQywQ==}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
 snapshots:
 
   '@alcalzone/ansi-tokenize@0.2.5':
@@ -1401,19 +1407,10 @@ snapshots:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
 
-  '@almadar/core@10.16.0':
-    dependencies:
-      '@almadar/patterns': 2.93.0
-      zod: 3.25.76
-
   '@almadar/eslint-plugin@2.8.2(eslint@9.39.4)':
     dependencies:
       eslint: 9.39.4
       jsonc-eslint-parser: 3.1.0
-
-  '@almadar/patterns@2.93.0':
-    dependencies:
-      '@almadar/core': 10.16.0
 
   '@esbuild/aix-ppc64@0.27.7':
     optional: true
@@ -2111,27 +2108,27 @@ snapshots:
 
   indent-string@5.0.0: {}
 
-  ink-select-input@6.2.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.7))(react@19.2.7):
+  ink-select-input@6.2.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.3))(react@19.2.3):
     dependencies:
       figures: 6.1.0
-      ink: 6.8.0(@types/react@19.2.17)(react@19.2.7)
-      react: 19.2.7
+      ink: 6.8.0(@types/react@19.2.17)(react@19.2.3)
+      react: 19.2.3
       to-rotated: 1.0.0
 
-  ink-spinner@5.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.7))(react@19.2.7):
+  ink-spinner@5.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.3))(react@19.2.3):
     dependencies:
       cli-spinners: 2.9.2
-      ink: 6.8.0(@types/react@19.2.17)(react@19.2.7)
-      react: 19.2.7
+      ink: 6.8.0(@types/react@19.2.17)(react@19.2.3)
+      react: 19.2.3
 
-  ink-text-input@6.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.7))(react@19.2.7):
+  ink-text-input@6.0.0(ink@6.8.0(@types/react@19.2.17)(react@19.2.3))(react@19.2.3):
     dependencies:
       chalk: 5.6.2
-      ink: 6.8.0(@types/react@19.2.17)(react@19.2.7)
-      react: 19.2.7
+      ink: 6.8.0(@types/react@19.2.17)(react@19.2.3)
+      react: 19.2.3
       type-fest: 4.41.0
 
-  ink@6.8.0(@types/react@19.2.17)(react@19.2.7):
+  ink@6.8.0(@types/react@19.2.17)(react@19.2.3):
     dependencies:
       '@alcalzone/ansi-tokenize': 0.2.5
       ansi-escapes: 7.3.0
@@ -2146,8 +2143,8 @@ snapshots:
       indent-string: 5.0.0
       is-in-ci: 2.0.0
       patch-console: 2.0.0
-      react: 19.2.7
-      react-reconciler: 0.33.0(react@19.2.7)
+      react: 19.2.3
+      react-reconciler: 0.33.0(react@19.2.3)
       scheduler: 0.27.0
       signal-exit: 3.0.7
       slice-ansi: 8.0.0
@@ -2308,12 +2305,12 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  react-reconciler@0.33.0(react@19.2.7):
+  react-reconciler@0.33.0(react@19.2.3):
     dependencies:
-      react: 19.2.7
+      react: 19.2.3
       scheduler: 0.27.0
 
-  react@19.2.7: {}
+  react@19.2.3: {}
 
   readdirp@4.1.2: {}
 
@@ -2523,5 +2520,3 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoga-layout@3.2.1: {}
-
-  zod@3.25.76: {}
