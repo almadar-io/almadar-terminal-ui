@@ -14,3 +14,8 @@ export { Tree, type TreeProps, type TreeNode } from './Tree.js';
 export { Accordion, type AccordionProps, type AccordionItem } from './Accordion.js';
 export { LogLine, type LogLineProps, type LogEntry, type LogLevel, LEVEL_COLOR, LEVEL_MARK } from './LogLine.js';
 export { LogView, type LogViewProps } from './LogView.js';
+export { LogViewer, type LogViewerProps } from './LogViewer.js';
+export { ToolCallCard, type ToolCallCardProps } from './ToolCallCard.js';
+export { AgentResponse, type AgentResponseProps } from './AgentResponse.js';
+export { ConversationView, type ConversationViewProps } from './ConversationView.js';
+export { Autocomplete, type AutocompleteProps, type AutocompleteItem } from './Autocomplete.js';

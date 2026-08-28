@@ -6,13 +6,17 @@ export interface CardProps {
   title?: string;
   subtitle?: string;
   padding?: number;
+  /** Border color — bare Ink/chalk color or hex, not a theme key (matches
+   *  `Box.borderColor`'s convention; resolve theme keys before passing). */
+  borderColor?: string;
   children?: React.ReactNode;
 }
 
-export function Card({ title, subtitle, padding = 1, children }: CardProps): React.ReactElement {
+export function Card({ title, subtitle, padding = 1, borderColor, children }: CardProps): React.ReactElement {
   return (
     <InkBox
       borderStyle="round"
+      borderColor={borderColor}
       flexDirection="column"
       paddingLeft={padding}
       paddingRight={padding}

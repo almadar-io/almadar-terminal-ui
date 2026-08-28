@@ -33,6 +33,11 @@ export { Tree, type TreeProps, type TreeNode } from './molecules/Tree.js';
 export { Accordion, type AccordionProps, type AccordionItem } from './molecules/Accordion.js';
 export { LogLine, type LogLineProps, type LogEntry, type LogLevel, LEVEL_COLOR, LEVEL_MARK } from './molecules/LogLine.js';
 export { LogView, type LogViewProps } from './molecules/LogView.js';
+export { LogViewer, type LogViewerProps } from './molecules/LogViewer.js';
+export { ToolCallCard, type ToolCallCardProps } from './molecules/ToolCallCard.js';
+export { AgentResponse, type AgentResponseProps } from './molecules/AgentResponse.js';
+export { ConversationView, type ConversationViewProps } from './molecules/ConversationView.js';
+export { Autocomplete, type AutocompleteProps, type AutocompleteItem } from './molecules/Autocomplete.js';
 
 // Hooks
 export { useTerminalWidth } from './hooks/useTerminalWidth.js';
