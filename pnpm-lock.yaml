@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@almadar/core':
-        specifier: ^10.71.0
-        version: 10.71.0
+        specifier: ^10.76.0
+        version: 10.76.0
       ink:
         specifier: ^6.0.0
         version: 6.8.0(@types/react@19.2.17)(react@19.2.3)
@@ -28,8 +28,8 @@ importers:
         version: 19.2.3
     devDependencies:
       '@almadar/eslint-plugin':
-        specifier: ^2.16.0
-        version: 2.16.0(eslint@9.39.4)
+        specifier: ^2.17.0
+        version: 2.17.0(eslint@9.39.4)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.0
@@ -70,11 +70,11 @@ packages:
     resolution: {integrity: sha512-3NX/MpTdroi0aKz134A6RC2Gb2iXVECN4QaAXnvCIxxIm3C3AVB1mkUe8NaaiyvOpDfsrqWhYtj+Q6a62RrTsw==}
     engines: {node: '>=18'}
 
-  '@almadar/core@10.71.0':
-    resolution: {integrity: sha512-dxEgE+TKqTs4eTeWNaQT9GhY37jqm/MwmBXIetb27j5zlkWzWp0ac0Gv8AamRigkQyXcCWwqVWVh0TTZfrDPUg==}
+  '@almadar/core@10.76.0':
+    resolution: {integrity: sha512-lCKyh1vi+y77HibjqUvT8sevyZuQ9OI//1UjNdrxmkbx1qct7bqCC5ItVdK8IJaM8Cd3TVC6JZjaLei14RSaDQ==}
 
-  '@almadar/eslint-plugin@2.16.0':
-    resolution: {integrity: sha512-7/F3SzZFjOPSspnV2KxrfuJ17WDYv5/GKUkGJl+aiTHlmXMUu9QN+FmL0fGFbAQRrDwzG/feovSmHbYRouUEsQ==}
+  '@almadar/eslint-plugin@2.17.0':
+    resolution: {integrity: sha512-3ZdHAH0XURvDHaMXLeEgbf6+0r+oh/Q8cnFlQttJ9tT2d8ToPG6TtWtGlHQKACk67OOJQ273CCR4ac2CjsLXyg==}
     peerDependencies:
       eslint: '>=8.0.0'
 
@@ -1922,11 +1922,11 @@ snapshots:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
 
-  '@almadar/core@10.71.0':
+  '@almadar/core@10.76.0':
     dependencies:
       zod: 3.25.76
 
-  '@almadar/eslint-plugin@2.16.0(eslint@9.39.4)':
+  '@almadar/eslint-plugin@2.17.0(eslint@9.39.4)':
     dependencies:
       eslint: 9.39.4
       jsonc-eslint-parser: 3.1.0
