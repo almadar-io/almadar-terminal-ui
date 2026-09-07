@@ -34,9 +34,11 @@ export interface PatternConfig {
   [key: string]: unknown;
 }
 
-/** Props resolved from pattern JSON. Values are primitive schema types. */
+/** Props resolved from pattern JSON. Values are primitive schema types.
+ *  `string[]` covers raw string-list props (e.g. `wizard-progress.steps`)
+ *  distinct from nested-object arrays (`PatternProps[]`). */
 interface PatternProps {
-  [key: string]: string | number | boolean | null | undefined | PatternProps | PatternProps[];
+  [key: string]: string | number | boolean | null | undefined | PatternProps | PatternProps[] | string[];
 }
 
 // Props come from schema JSON — dynamic resolution, components validate their own props
@@ -91,8 +93,7 @@ const COMPONENT_MAP: Record<string, ComponentFactory> = {
     return el(Breadcrumb, { items });
   },
   'wizard-progress': (p) => {
-    // eslint-disable-next-line almadar/no-record-string-unknown -- WizardProgress steps come from dynamic pattern props
-    const steps = (p.steps ?? []) as unknown as string[];
+    const steps = Array.isArray(p.steps) ? p.steps.filter((s): s is string => typeof s === 'string') : [];
     return el(WizardProgress, { steps, activeStep: Number(p.activeStep ?? 0) });
   },
   'alert': (p) => el(Alert, { variant: p.variant as string ?? 'info', title: String(p.title ?? ''), message: String(p.message ?? p.content ?? '') }),
