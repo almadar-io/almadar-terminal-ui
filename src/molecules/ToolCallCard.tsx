@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box as InkBox, Text } from 'ink';
-import type { ToolArgs, JsonValue } from '@almadar/core';
 import { Spinner } from '../atoms/Spinner.js';
 import { Badge } from '../atoms/Badge.js';
 import { Icon } from '../atoms/Icon.js';
@@ -27,12 +26,14 @@ function pickToolIcon(tool: string): string {
 
 export interface ToolCallCardProps {
   tool: string;
-  args?: ToolArgs;
+  /** The arguments exactly as the agent sent them. */
+  argsText?: string;
   status: 'running' | 'success' | 'error';
   durationMs?: number;
-  result?: JsonValue;
-  /** Show full, untruncated args/result JSON instead of the compact
-   *  one-line summary — driven by a caller-owned global toggle (e.g. the
+  /** The answer exactly as the agent got it back. */
+  resultText?: string;
+  /** Show the full args/result text below the row instead of the
+   *  one-line row — driven by a caller-owned global toggle (e.g. the
    *  CLI's Ctrl+O) so every card expands together. Full detail is also
    *  always available in the caller's log view regardless of this prop. */
   expanded?: boolean;
@@ -40,9 +41,9 @@ export interface ToolCallCardProps {
 
 /** One tool-call row — in-flight (spinner + tool icon + arg summary) or
  *  resolved (✓/✗ + duration), with an optional expanded full-detail body. */
-export function ToolCallCard({ tool, args, status, durationMs, result, expanded = false }: ToolCallCardProps): React.ReactElement {
+export function ToolCallCard({ tool, argsText, status, durationMs, resultText, expanded = false }: ToolCallCardProps): React.ReactElement {
   if (status === 'running') {
-    const summary = args ? summarizeArgs(args) : '';
+    const summary = argsText !== undefined && argsText !== '{}' ? argsText : '';
     return (
       <InkBox flexDirection="column">
         <InkBox>
@@ -53,7 +54,7 @@ export function ToolCallCard({ tool, args, status, durationMs, result, expanded 
           <Badge variant="info">{tool}</Badge>
           {!expanded && summary ? <Text dimColor>  {summary}</Text> : null}
         </InkBox>
-        {expanded && args !== undefined ? <DetailBlock label="args" value={args} /> : null}
+        {expanded && argsText !== undefined ? <DetailBlock label="args" text={argsText} /> : null}
       </InkBox>
     );
   }
@@ -65,24 +66,17 @@ export function ToolCallCard({ tool, args, status, durationMs, result, expanded 
         <Text> {tool}</Text>
         {typeof durationMs === 'number' ? <Text dimColor> ({durationMs}ms)</Text> : null}
       </InkBox>
-      {expanded && args !== undefined ? <DetailBlock label="args" value={args} /> : null}
-      {expanded && result !== undefined ? <DetailBlock label="result" value={result} /> : null}
+      {expanded && argsText !== undefined ? <DetailBlock label="args" text={argsText} /> : null}
+      {expanded && resultText !== undefined ? <DetailBlock label="result" text={resultText} /> : null}
     </InkBox>
   );
 }
 
-function DetailBlock({ label, value }: { label: string; value: unknown }): React.ReactElement {
-  const json = (() => {
-    try {
-      return JSON.stringify(value, null, 2);
-    } catch {
-      return String(value);
-    }
-  })();
+function DetailBlock({ label, text }: { label: string; text: string }): React.ReactElement {
   return (
     <InkBox flexDirection="column" marginLeft={2}>
       <Text dimColor>{label}:</Text>
-      {json.split('\n').map((line, i) => (
+      {text.split('\n').map((line, i) => (
         <Text key={i} dimColor>
           {'  '}
           {line}
@@ -90,16 +84,4 @@ function DetailBlock({ label, value }: { label: string; value: unknown }): React
       ))}
     </InkBox>
   );
-}
-
-function summarizeArgs(args: ToolArgs): string {
-  const parts: string[] = [];
-  for (const [key, val] of Object.entries(args)) {
-    if (typeof val === 'string' && val.length < 40) {
-      parts.push(`${key}: ${val}`);
-    } else if (typeof val === 'number' || typeof val === 'boolean') {
-      parts.push(`${key}: ${val}`);
-    }
-  }
-  return parts.slice(0, 3).join(', ');
 }

@@ -12,8 +12,8 @@ describe('ConversationView', () => {
 
   it('renders a running tool call, a resolved one, a message, and a milestone in the root timeline', () => {
     const items: TraceActivityItem[] = [
-      { type: 'tool_call', tool: 'search_organisms', args: {}, timestamp: 1, isExecuting: true },
-      { type: 'tool_result', tool: 'search_organisms', result: null, success: true, timestamp: 2, durationMs: 10 },
+      { type: 'tool_call', tool: 'search_organisms', argsText: '{}', timestamp: 1, isExecuting: true },
+      { type: 'tool_result', tool: 'search_organisms', resultText: 'null', success: true, timestamp: 2, durationMs: 10 },
       { type: 'message', role: 'assistant', content: 'Built the todo app.', timestamp: 3 },
       { type: 'milestone', milestone: 'roster set', summary: '1 orbital', timestamp: 4 },
     ];
@@ -37,8 +37,8 @@ describe('ConversationView', () => {
         messages: [],
         durationMs: 500,
         timeline: [
-          { type: 'tool_call', tool: 'write', args: {}, timestamp: 1, isExecuting: true },
-          { type: 'tool_result', tool: 'validate', result: null, success: true, timestamp: 2 },
+          { type: 'tool_call', tool: 'write', argsText: '{}', timestamp: 1, isExecuting: true },
+          { type: 'tool_result', tool: 'validate', resultText: 'null', success: true, timestamp: 2 },
         ],
       },
     ];
@@ -62,7 +62,7 @@ describe('ConversationView', () => {
 
   it('expandToolCalls threads through to root-level and nested tool-call cards', () => {
     const items: TraceActivityItem[] = [
-      { type: 'tool_result', tool: 'search_organisms', result: { hit: 'TodoOrganism' }, success: true, timestamp: 1 },
+      { type: 'tool_result', tool: 'search_organisms', resultText: '{"hit":"TodoOrganism"}', success: true, timestamp: 1 },
     ];
     const subagents: TraceSubagent[] = [
       {
@@ -72,7 +72,7 @@ describe('ConversationView', () => {
         status: 'complete',
         task: 'build',
         messages: [],
-        timeline: [{ type: 'tool_result', tool: 'validate', result: { errors: [] }, success: true, timestamp: 1 }],
+        timeline: [{ type: 'tool_result', tool: 'validate', resultText: '{"errors":[]}', success: true, timestamp: 1 }],
       },
     ];
     const collapsed = render(<ConversationView rootTimeline={items} subagents={subagents} />);
@@ -81,6 +81,6 @@ describe('ConversationView', () => {
     const expanded = render(<ConversationView rootTimeline={items} subagents={subagents} expandToolCalls />);
     const frame = expanded.lastFrame() ?? '';
     expect(frame).toContain('TodoOrganism');
-    expect(frame).toContain('"errors": []');
+    expect(frame).toContain('"errors":[]');
   });
 });

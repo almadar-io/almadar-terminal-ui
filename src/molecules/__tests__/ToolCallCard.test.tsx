@@ -4,13 +4,23 @@ import { render } from 'ink-testing-library';
 import { ToolCallCard } from '../ToolCallCard.js';
 
 describe('ToolCallCard', () => {
-  it('shows a running tool with a search-style icon and arg summary', () => {
+  it('shows a running tool with a search-style icon and its arguments as sent', () => {
     const { lastFrame } = render(
-      <ToolCallCard tool="search_organisms" args={{ query: 'todo app' }} status="running" />,
+      <ToolCallCard tool="search_organisms" argsText='{"query":"todo app"}' status="running" />,
     );
     const frame = lastFrame() ?? '';
     expect(frame).toContain('search_organisms');
-    expect(frame).toContain('query: todo app');
+    expect(frame).toContain('{"query":"todo app"}');
+  });
+
+  it('expanded, a resolved tool shows its full answer text', () => {
+    const { lastFrame } = render(<ToolCallCard tool="validate" status="success" resultText='{"errors":[]}' expanded />);
+    expect(lastFrame() ?? '').toContain('{"errors":[]}');
+  });
+
+  it('control: collapsed, the answer text stays hidden', () => {
+    const { lastFrame } = render(<ToolCallCard tool="validate" status="success" resultText='{"errors":[]}' />);
+    expect(lastFrame() ?? '').not.toContain('{"errors":[]}');
   });
 
   it('shows a resolved success with a check mark and duration', () => {
@@ -35,7 +45,7 @@ describe('ToolCallCard', () => {
 
   it('hides full args/result behind the compact summary when not expanded', () => {
     const { lastFrame } = render(
-      <ToolCallCard tool="search_organisms" status="success" result={{ organisms: ['TodoOrganism', 'CartOrganism'] }} />,
+      <ToolCallCard tool="search_organisms" status="success" resultText='{"organisms":["TodoOrganism","CartOrganism"]}' />,
     );
     expect(lastFrame() ?? '').not.toContain('TodoOrganism');
   });
@@ -44,9 +54,9 @@ describe('ToolCallCard', () => {
     const { lastFrame } = render(
       <ToolCallCard
         tool="search_organisms"
-        args={{ query: 'a very specific query string that is definitely longer than forty characters' }}
+        argsText='{"query":"a very specific query string that is definitely longer than forty characters"}'
         status="success"
-        result={{ organisms: ['TodoOrganism', 'CartOrganism'] }}
+        resultText='{"organisms":["TodoOrganism","CartOrganism"]}'
         expanded
       />,
     );
@@ -62,14 +72,14 @@ describe('ToolCallCard', () => {
     const { lastFrame } = render(
       <ToolCallCard
         tool="write"
-        args={{ a: 1, b: 2, c: 3, d: 4, e: { nested: true } }}
+        argsText='{"a":1,"b":2,"c":3,"d":4,"e":{"nested":true}}'
         status="running"
         expanded
       />,
     );
     const frame = lastFrame() ?? '';
-    expect(frame).toContain('"a": 1');
-    expect(frame).toContain('"d": 4');
-    expect(frame).toContain('"nested": true');
+    expect(frame).toContain('"a":1');
+    expect(frame).toContain('"d":4');
+    expect(frame).toContain('"nested":true');
   });
 });

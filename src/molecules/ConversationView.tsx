@@ -49,13 +49,13 @@ function ActivityRow({ item, expanded }: { item: TraceActivityItem; expanded: bo
     case 'message':
       return <AgentResponse content={item.content} />;
     case 'tool_call':
-      return <ToolCallCard tool={item.tool} args={item.args} status="running" expanded={expanded} />;
+      return <ToolCallCard tool={item.tool} argsText={item.argsText} status="running" expanded={expanded} />;
     case 'tool_result':
       return (
         <ToolCallCard
           tool={item.tool}
           status={item.success ? 'success' : 'error'}
-          result={item.result}
+          resultText={item.resultText}
           expanded={expanded}
           {...(typeof item.durationMs === 'number' ? { durationMs: item.durationMs } : {})}
         />
