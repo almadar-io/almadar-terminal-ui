@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@almadar/core':
-        specifier: ^10.115.0
-        version: 10.115.0
+        specifier: ^10.119.1
+        version: 10.119.1
       ink:
         specifier: ^6.0.0
         version: 6.8.0(@types/react@19.2.17)(react@19.2.3)
@@ -70,8 +70,8 @@ packages:
     resolution: {integrity: sha512-3NX/MpTdroi0aKz134A6RC2Gb2iXVECN4QaAXnvCIxxIm3C3AVB1mkUe8NaaiyvOpDfsrqWhYtj+Q6a62RrTsw==}
     engines: {node: '>=18'}
 
-  '@almadar/core@10.115.0':
-    resolution: {integrity: sha512-1k2TZEkgNGVT0uMC4PiZITTEJ+HbRvKcsYtNzQ62jjEUbJqmgAs+I3AtcRiO3FFR+0QHhzx0DGUgYFn1ZXYFyg==}
+  '@almadar/core@10.119.1':
+    resolution: {integrity: sha512-Fe8HghP9ixnIpJUpEb1Fem903Au7wGGhCnnwqmeaYVbDc22UFlWCnm3w88lld9smNI7amGxrv02uPj8PA8V8Rg==}
 
   '@almadar/eslint-plugin@2.21.0':
     resolution: {integrity: sha512-H010BxnM/s2v17EcFzh3hGTD1o3AJCBLqrmh1Fupvgdq2oP/PDicU5XAWTYt9apdIiM5yDs11trUT3BYFkGqCA==}
@@ -1923,7 +1923,7 @@ snapshots:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
 
-  '@almadar/core@10.115.0':
+  '@almadar/core@10.119.1':
     dependencies:
       zod: 3.25.76
 
